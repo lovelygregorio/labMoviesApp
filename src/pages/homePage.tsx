@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/headerMovieList";
 import Grid from "@mui/material/Grid";
-import MovieList from "../components/movieList";
+import MovieList from "../components/movieList/index";
 import { BaseMovieListProps } from "../types/interfaces";
  
 const styles = {
@@ -12,7 +12,7 @@ const styles = {
 
 
 
-const MovieListPage: React.FC<BaseMovieListProps> = ({movies}) => {
+const MovieListPage: React.FC<BaseMovieListProps> = ({ movies }) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
