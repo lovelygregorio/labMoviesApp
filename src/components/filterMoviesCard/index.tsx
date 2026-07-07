@@ -9,6 +9,13 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { FilterOption } from "../../types/interfaces";
+
+interface FilterMoviesCardProps {
+  onUserInput: (f: FilterOption, s: string) => void;
+  titleFilter: string;
+  genreFilter: string;
+}
 
 const styles = {
   root: {
@@ -24,13 +31,22 @@ const styles = {
 };
 
 
-  const FilterMoviesCard: React.FC= () => {
+  const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
+  titleFilter,
+  genreFilter,
+  onUserInput,
+}) => {  
 
   const genres = [
     {id: 1, name: "Animation"},
     {id: 2, name: "Comedy"},
     {id: 3, name: "Thriller"}
   ]
+
+   const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
+        e.preventDefault()
+        onUserInput(type, value)
+      };
 
   return (
     <>
