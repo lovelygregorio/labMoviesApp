@@ -58,7 +58,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, selectFavourite}) => {
         sx={styles.media}
         image={
           movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
             : img
         }
       />

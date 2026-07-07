@@ -35,6 +35,10 @@ export interface BaseMovieProps {
   }[];
 }
 
+export interface MovieListPageTemplateProps extends BaseMovieListProps {
+  title: string;
+}
+
 export interface MovieImage {
   file_path: string;
   aspect_ratio?: number; //some props are optional...
