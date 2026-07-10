@@ -6,9 +6,10 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { DiscoverMovies } from "../types/interfaces";
+import { BaseMovieProps, DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 
 
 const titleFiltering = {
@@ -21,10 +22,10 @@ const genreFiltering = {
   value: "0",
   condition: genreFilter,
 };
-
 const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
+  const { data, error, isLoading, isError } =
+    useQuery<DiscoverMovies, Error>("discover", getMovies);
+ const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
 
@@ -36,31 +37,36 @@ const HomePage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
+  const changeFilterValues = (
+    type: string,
+    value: string
+  ) => {
+    const changedFilter = {
+      name: type,
+      value,
+    };
 
-  const changeFilterValues = (type: string, value: string) => {
-    const changedFilter = { name: type, value: value };
     const updatedFilterSet =
       type === "title"
         ? [changedFilter, filterValues[1]]
         : [filterValues[0], changedFilter];
+
     setFilterValues(updatedFilterSet);
   };
 
   const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
-  // Redundant, but necessary to avoid app crashing.
-  const favourites = movies.filter(m => m.favourite)
-  localStorage.setItem("favourites", JSON.stringify(favourites));
-  const addToFavourites = (movieId: number) => true;
-
-  return (
+   return (
     <>
       <PageTemplate
         title="Discover Movies"
         movies={displayedMovies}
-        selectFavourite={addToFavourites}
+        action={(movie: BaseMovieProps) => (
+          <AddToFavouritesIcon {...movie} />
+        )}
       />
+
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
@@ -69,4 +75,5 @@ const HomePage: React.FC = () => {
     </>
   );
 };
+
 export default HomePage;

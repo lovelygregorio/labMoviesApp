@@ -8,7 +8,8 @@ import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
-import  Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material";
 
 import { getGenres } from "../../api/tmdb-api";
 import { FilterOption, GenreData } from "../../types/interfaces";
