@@ -8,10 +8,13 @@ const WriteReviewIcon: React.FC<BaseMovieProps> = (movie) => {
     <Link
       to="/reviews/form"
       state={{
-        movie: movie,
+        movieId: movie.id,
       }}
     >
-      <RateReviewIcon color="primary" fontSize="large" />
+      <RateReviewIcon
+        color="primary"
+        fontSize="large"
+      />
     </Link>
   );
 };

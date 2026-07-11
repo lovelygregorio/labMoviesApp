@@ -1,8 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
-import { QueryClient, QueryClientProvider } from "react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import HomePage from "./pages/homePage";
@@ -50,13 +58,11 @@ const App = () => {
               element={<UpcomingMoviesPage />}
             />
 
-            {/* Review Form */}
             <Route
-              path="/reviews/form/:id"
+              path="/reviews/form"
               element={<AddMovieReviewPage />}
             />
 
-            {/* Movie Reviews */}
             <Route
               path="/reviews/:id"
               element={<MovieReviewPage />}
