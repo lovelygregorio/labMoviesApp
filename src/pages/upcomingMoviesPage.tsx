@@ -11,10 +11,7 @@ import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 
 import useFiltering from "../hooks/useFiltering";
 import { getUpcomingMovies } from "../api/tmdb-api";
-import {
-  BaseMovieProps,
-  DiscoverMovies,
-} from "../types/interfaces";
+import { BaseMovieProps } from "../types/interfaces";
 
 const titleFiltering = {
   name: "title",
@@ -30,11 +27,11 @@ const genreFiltering = {
 
 const UpcomingMoviesPage: React.FC = () => {
   const {
-    data,
+    data: movies,
     error,
     isLoading,
     isError,
-  } = useQuery<DiscoverMovies, Error>(
+  } = useQuery<BaseMovieProps[], Error>(
     "upcoming",
     getUpcomingMovies
   );
@@ -43,10 +40,7 @@ const UpcomingMoviesPage: React.FC = () => {
     filterValues,
     setFilterValues,
     filterFunction,
-  } = useFiltering([
-    titleFiltering,
-    genreFiltering,
-  ]);
+  } = useFiltering([titleFiltering, genreFiltering]);
 
   if (isLoading) {
     return <Spinner />;
@@ -56,8 +50,7 @@ const UpcomingMoviesPage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
-  const movies = data ? data.results : [];
-  const displayedMovies = filterFunction(movies);
+  const displayedMovies = filterFunction(movies ?? []);
 
   const changeFilterValues = (
     type: string,

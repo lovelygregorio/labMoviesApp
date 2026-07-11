@@ -1,11 +1,30 @@
-import React from "react";
+import React, {
+  MouseEvent,
+  useContext,
+} from "react";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+
+import { MoviesContext } from "../../contexts/moviesContext";
 import { BaseMovieProps } from "../../types/interfaces";
 
-const AddToPlaylistIcon: React.FC<BaseMovieProps> = () => {
+const AddToPlaylistIcon: React.FC<BaseMovieProps> = (
+  movie
+) => {
+  const { addToMustWatch } = useContext(MoviesContext);
+
+  const onUserSelect = (
+    event: MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    addToMustWatch(movie);
+  };
+
   return (
-    <IconButton aria-label="add to playlist">
+    <IconButton
+      aria-label="add to must watch"
+      onClick={onUserSelect}
+    >
       <PlaylistAddIcon
         color="primary"
         fontSize="large"
