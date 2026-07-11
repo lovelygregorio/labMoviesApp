@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,10 +15,11 @@ import { Link } from "react-router-dom";
 
 import img from "../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../types/interfaces";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 interface MovieCardProps {
   movie: BaseMovieProps;
-  action: (m: BaseMovieProps) => React.ReactNode;
+  action: (movie: BaseMovieProps) => React.ReactNode;
 }
 
 const styles = {
@@ -37,11 +38,17 @@ const MovieCard: React.FC<MovieCardProps> = ({
   movie,
   action,
 }) => {
+  const { favourites } = useContext(MoviesContext);
+
+  const isFavourite = favourites.some(
+    (movieId) => movieId === movie.id
+  );
+
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          movie.favourite ? (
+          isFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
@@ -61,6 +68,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : img
         }
+        title={movie.title}
       />
 
       <CardContent>
@@ -68,6 +76,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
+              {" "}
               {movie.release_date}
             </Typography>
           </Grid>
@@ -75,7 +84,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
               <StarRateIcon fontSize="small" />
-              {"  "}
+              {" "}
               {movie.vote_average}
             </Typography>
           </Grid>
@@ -85,15 +94,15 @@ const MovieCard: React.FC<MovieCardProps> = ({
       <CardActions disableSpacing>
         {action(movie)}
 
-        <Link to={`/movies/${movie.id}`}>
-          <Button
-            variant="outlined"
-            size="medium"
-            color="primary"
-          >
-            More Info ...
-          </Button>
-        </Link>
+        <Button
+          component={Link}
+          to={`/movies/${movie.id}`}
+          variant="outlined"
+          size="medium"
+          color="primary"
+        >
+          More Info ...
+        </Button>
       </CardActions>
     </Card>
   );

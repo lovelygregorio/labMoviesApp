@@ -9,4 +9,4 @@ const MovieReview: React.FC<Review> =  (props) => {
     </>
   );
 };
-export default MovieReview
+export default MovieReview;

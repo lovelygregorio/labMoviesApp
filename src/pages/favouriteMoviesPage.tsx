@@ -11,6 +11,7 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
+import { BaseMovieProps } from "../types/interfaces";
 
 const titleFiltering = {
   name: "title",
@@ -34,29 +35,27 @@ const FavouriteMoviesPage: React.FC = () => {
   } = useFiltering([titleFiltering, genreFiltering]);
 
   const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["movie", movieId],
-        queryFn: () => getMovie(movieId.toString()),
-      };
-    })
+    movieIds.map((movieId) => ({
+      queryKey: ["movie", movieId],
+      queryFn: () => getMovie(movieId.toString()),
+    }))
   );
 
-  const isLoading = favouriteMovieQueries.find(
-    (movie) => movie.isLoading === true
+  const isLoading = favouriteMovieQueries.some(
+    (query) => query.isLoading
   );
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  const allFavourites = favouriteMovieQueries.map(
-    (query) => query.data
-  );
+  const allFavourites = favouriteMovieQueries
+    .map((query) => query.data)
+    .filter(
+      (movie): movie is BaseMovieProps => movie !== undefined
+    );
 
-  const displayedMovies = allFavourites
-    ? filterFunction(allFavourites)
-    : [];
+  const displayedMovies = filterFunction(allFavourites);
 
   const changeFilterValues = (
     type: string,
@@ -80,14 +79,12 @@ const FavouriteMoviesPage: React.FC = () => {
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
-        action={(movie) => {
-          return (
-            <>
-              <RemoveFromFavourites {...movie} />
-              <WriteReview {...movie} />
-            </>
-          );
-        }}
+        action={(movie) => (
+          <>
+            <RemoveFromFavourites {...movie} />
+            <WriteReview {...movie} />
+          </>
+        )}
       />
 
       <MovieFilterUI
