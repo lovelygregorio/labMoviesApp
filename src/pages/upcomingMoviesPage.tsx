@@ -7,7 +7,7 @@ import MovieFilterUI, {
   genreFilter,
 } from "../components/movieFilterUI";
 import Spinner from "../components/spinner";
-import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 
 import useFiltering from "../hooks/useFiltering";
 import { getUpcomingMovies } from "../api/tmdb-api";
@@ -82,7 +82,7 @@ const UpcomingMoviesPage: React.FC = () => {
         title="Upcoming Movies"
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => (
-          <AddToFavouritesIcon {...movie} />
+          <AddToPlaylistIcon {...movie} />
         )}
       />
 
